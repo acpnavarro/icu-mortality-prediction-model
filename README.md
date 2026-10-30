@@ -1,4 +1,4 @@
-# ICU Mortality Prediction Model (Modelo A)
+# ICU Mortality Prediction Model 
 
 A machine learning pipeline that predicts **hospital mortality in ICU patients** from data available in
 the **first 24 hours** of admission, developed on a single-center database of **~7,500 ICU admissions**,
