@@ -1,0 +1,19 @@
+# Never commit patient data or derived data files
+*.xlsx
+*.xls
+*.csv
+*.joblib
+*.pkl
+*.parquet
+
+data/*
+!data/README.md
+
+outputs/*
+!outputs/README.md
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/

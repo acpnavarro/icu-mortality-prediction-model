@@ -1,0 +1,26 @@
+name: privacy-check
+
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No data files committed
+        run: |
+          found=$(git ls-files | grep -Ei '\.(xlsx|xls|csv|parquet|joblib|pkl)$' || true)
+          if [ -n "$found" ]; then echo "Data files found:"; echo "$found"; exit 1; fi
+
+      - name: Notebooks carry no outputs
+        run: |
+          python - <<'PY'
+          import json, glob, sys
+          bad = [f for f in glob.glob('notebooks/*.ipynb')
+                 if any(c.get('outputs') for c in json.load(open(f))['cells'] if c['cell_type'] == 'code')]
+          if bad:
+              print('Notebooks with outputs (may contain patient identifiers):', *bad, sep='\n  ')
+              sys.exit(1)
+          print('OK: no notebook outputs.')
+          PY
